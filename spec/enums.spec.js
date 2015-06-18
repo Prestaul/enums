@@ -20,7 +20,7 @@ describe( "Enum", function() {
 		expect( color.contains( fruit.apple ) ).toBeFalsy();
 	} );
 
-	it( "can lookup by value", function() {
+	describe( "with values", function() {
 		var roles = new enums.Enum( {
 			None: {
 				value: 0,
@@ -36,9 +36,23 @@ describe( "Enum", function() {
 			}
 		} );
 
-		expect( roles.fromValue( 0 ) ).toEqual( roles.None );
-		expect( roles.fromValue( 4 ) ).toEqual( roles.BoardAdministrator );
-		expect( roles.fromValue( 5 ).description ).toEqual( "Board Creator" );
+		it( "can lookup by value", function() {
+			expect( roles.fromValue( 0 ) ).toEqual( roles.None );
+			expect( roles.fromValue( 4 ) ).toEqual( roles.BoardAdministrator );
+			expect( roles.fromValue( 5 ).description ).toEqual( "Board Creator" );
+		} );
+
+		it( "failed lookup is undefined", function() {
+			expect( roles.fromValue( 1 ) ).toBeUndefined();
+		} );
+
+		it( "enum == the value", function() {
+			expect( roles.BoardAdministrator == 4 ).toBeTruthy();
+		} );
+
+		it( "enum !== value", function() {
+			expect( roles.BoardAdministrator === 4 ).toBeFalsy();
+		} );
 	} );
 } );
 

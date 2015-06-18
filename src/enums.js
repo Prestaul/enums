@@ -30,16 +30,16 @@
 	Object.freeze( Symbol.prototype );
 
 	function Enum( obj ) {
-		Object.defineProperty( this, "lookup", { enumerable: false, value: [] } );
+		Object.defineProperty( this, "elements", { enumerable: false, value: [] } );
 		if ( arguments.length === 1 && obj !== null && typeof obj === "object" ) {
 			Object.keys( obj ).forEach( function( name ) {
 				this[name] = new Symbol( name, obj[name] );
-				this.lookup.push( name );
+				this.elements.push( name );
 			}, this );
 		} else {
 			Array.prototype.forEach.call( arguments, function( name, idx ) {
 				this[name] = new Symbol( name );
-				this.lookup.push( name );
+				this.elements.push( name );
 			}, this );
 		}
 		Object.freeze( this );
@@ -59,14 +59,13 @@
 	};
 	Enum.prototype.fromValue = function( val ) {
 		var res;
-		this.lookup.forEach( function( en ) {
-			if ( this[en].value === val ) {
-				res = this[en];
+		var that = this;
+		this.elements.some( function( en ) {
+			if ( that[en].value === val ) {
+				res = that[en];
+				return true;
 			}
-		}.bind( this ) );
-		if ( !res ) {
-			throw new Error( "Invalid enum value: " + val );
-		}
+		} );
 		return res;
 	};
 	exports.Enum = Enum;

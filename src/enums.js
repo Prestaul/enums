@@ -9,9 +9,9 @@
 
 	function Symbol( name, props ) {
 		this.name = name;
-		if (props) {
-            copyOwnFrom(this, props);
-        }
+		if ( props ) {
+			copyOwnFrom( this, props );
+		}
 		Object.freeze( this );
 	}
 	/** We don’t want the mutable Object.prototype in the prototype chain */
@@ -59,12 +59,12 @@
 	};
 	Enum.prototype.fromValue = function( val ) {
 		var res;
-		this.lookup.forEach(function( en ) {
-			if(this[en].value === val) {
+		this.lookup.forEach( function( en ) {
+			if ( this[en].value === val ) {
 				res = this[en];
 			}
-		}.bind( this ));
-		if(!res) {
+		}.bind( this ) );
+		if ( !res ) {
 			throw new Error( "Invalid enum value: " + val );
 		}
 		return res;
